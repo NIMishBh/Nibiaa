@@ -26,8 +26,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
+        final LoadingDialog loadingDialog= new LoadingDialog(MainActivity.this);
+        loadingDialog.startLoadingDialog();
+
+//        Window wd = MainActivity.this.getWindow();
+//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.colorAccent));
 
         progweb = findViewById(R.id.progressbar);
         webView = findViewById(R.id.myWebView);
@@ -79,9 +87,11 @@ public class MainActivity extends AppCompatActivity {
                 progweb.setVisibility(View.VISIBLE);
                 progweb.setProgress(newProgress);
                 setTitle("Loading...");
-                if(newProgress==100)
+                if(newProgress==100) {
                     progweb.setVisibility(View.GONE);
-                    setTitle("Nibiaa");
+                    loadingDialog.dismissDialog();
+                }
+                setTitle("Nibiaa");
 
                 super.onProgressChanged(view, newProgress);
             }
